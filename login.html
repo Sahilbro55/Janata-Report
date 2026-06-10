@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – Janata Report</title>
+  <meta name="description" content="Login to Janata Report as a citizen to submit complaints, or as admin to manage reports.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛</text></svg>">
+
+  <style>
+    body { background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, var(--blue-light) 100%); min-height: 100vh; }
+
+    .login-page-wrap {
+      min-height: calc(100vh - 70px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .login-container { width: 100%; max-width: 480px; }
+
+    /* brand at top */
+    .login-brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .login-logo {
+      width: 60px; height: 60px;
+      background: var(--yellow);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      margin: 0 auto 12px;
+      box-shadow: 0 8px 24px rgba(250,204,21,.35);
+    }
+    .login-brand h1 { font-size: 24px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+    .login-brand p  { font-size: 13px; color: rgba(255,255,255,.65); }
+    .login-brand .tagline {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--yellow);
+      font-style: italic;
+    }
+
+    /* card */
+    .login-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px 38px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.28);
+    }
+
+    /* tabs */
+    .login-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--g100);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 30px;
+      gap: 4px;
+    }
+    .login-tab {
+      padding: 11px 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--g600);
+      transition: background .2s, color .2s, box-shadow .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+    .login-tab.active {
+      background: var(--white);
+      color: var(--blue);
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+    .login-tab.admin-tab.active { color: #92400e; }
+
+    /* form panels */
+    .login-panel { display: none; }
+    .login-panel.active { display: block; }
+
+    .panel-header { margin-bottom: 22px; }
+    .panel-header h2 { font-size: 19px; font-weight: 800; color: var(--g800); margin-bottom: 5px; }
+    .panel-header p  { font-size: 13px; color: var(--g600); line-height: 1.6; }
+
+    /* role info chips */
+    .role-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .role-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--g100);
+      border: 1px solid var(--g200);
+      padding: 5px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--g600);
+    }
+    .role-chip.citizen { background: #dbeafe; border-color: #bfdbfe; color: #1d4ed8; }
+    .role-chip.admin   { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+
+    /* input groups */
+    .input-group { margin-bottom: 18px; }
+    .input-group label {
+      display: block;
+      font-size: 13px; font-weight: 600;
+      color: var(--g800);
+      margin-bottom: 6px;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .input-wrap .input-icon {
+      position: absolute;
+      left: 13px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .input-wrap input {
+      width: 100%;
+      padding: 11px 13px 11px 40px;
+      border: 1.5px solid var(--g200);
+      border-radius: 8px;
+      font-size: 14px; font-family: var(--font);
+      color: var(--g800);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      background: var(--white);
+    }
+    .input-wrap input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(30,58,138,.09);
+    }
+    .admin-panel .input-wrap input:focus {
+      border-color: #d97706;
+      box-shadow: 0 0 0 3px rgba(217,119,6,.09);
+    }
+
+    /* demo hint */
+    .demo-hint {
+      background: var(--g100);
+      border: 1px solid var(--g200);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 12px;
+      color: var(--g600);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .demo-hint strong { color: var(--g800); }
+
+    /* submit btn */
+    .login-submit {
+      width: 100%;
+      padding: 13px;
+      border-radius: 9px;
+      font-size: 15px; font-weight: 700;
+      border: none; cursor: pointer;
+      transition: transform .13s, opacity .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .login-submit:hover { transform: translateY(-1px); opacity: .92; }
+    .citizen-submit { background: var(--blue); color: var(--white); }
+    .admin-submit   { background: #d97706; color: var(--white); }
+
+    /* error message */
+    .login-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--red);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .login-error.show { display: flex; }
+
+    /* divider */
+    .login-divider {
+      text-align: center;
+      font-size: 12px;
+      color: var(--g400);
+      margin: 18px 0;
+      position: relative;
+    }
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%; width: calc(50% - 28px);
+      height: 1px; background: var(--g200);
+    }
+    .login-divider::before { left: 0; }
+    .login-divider::after  { right: 0; }
+
+    /* back home link */
+    .back-home {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+    }
+    .back-home a { color: var(--yellow); font-weight: 600; transition: opacity .2s; }
+    .back-home a:hover { opacity: .8; }
+
+    /* ── Citizen dashboard (post-login) ── */
+    .citizen-dash { display: none; }
+    .citizen-dash.active { display: block; }
+
+    .dash-welcome {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px 36px 36px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.28);
+    }
+    .dash-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--g200);
+    }
+    .dash-top h2 { font-size: 18px; font-weight: 800; color: var(--g800); margin-bottom: 4px; }
+    .dash-top p  { font-size: 13px; color: var(--g600); }
+    .logout-btn  { font-size: 13px; background: #fee2e2; color: var(--red); border: none; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-family: var(--font); font-weight: 600; transition: background .2s; }
+    .logout-btn:hover { background: #fecaca; }
+
+    .citizen-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .citizen-action-card {
+      background: var(--bg);
+      border: 1px solid var(--g200);
+      border-radius: var(--r);
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      display: block;
+    }
+    .citizen-action-card:hover { transform: translateY(-2px); box-shadow: var(--sh-md); }
+    .citizen-action-card .ca-icon { font-size: 32px; margin-bottom: 8px; }
+    .citizen-action-card h4 { font-size: 14px; font-weight: 700; color: var(--g800); margin-bottom: 4px; }
+    .citizen-action-card p  { font-size: 12px; color: var(--g600); }
+    .citizen-action-card.primary-action { background: #eff6ff; border-color: #bfdbfe; }
+
+    .my-reports-section h3 { font-size: 15px; font-weight: 700; color: var(--g800); margin-bottom: 12px; }
+    .my-reports-empty { background: var(--g100); border-radius: 10px; padding: 28px; text-align: center; font-size: 13px; color: var(--g400); }
+    .my-reports-empty .me-icon { font-size: 36px; margin-bottom: 8px; }
+
+    .my-report-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      background: var(--g100);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .my-report-row .mr-id { font-family: monospace; font-weight: 700; color: var(--blue); font-size: 12px; flex-shrink: 0; }
+    .my-report-row .mr-title { flex: 1; color: var(--g800); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .my-report-row .mr-cat   { font-size: 12px; color: var(--g600); flex-shrink: 0; }
+
+    @media (max-width: 480px) {
+      .login-card     { padding: 26px 20px; }
+      .dash-welcome   { padding: 22px 18px; }
+      .citizen-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="login">
+
+  <div class="gov-banner">
+    🇳🇵 &nbsp;<strong>Government of Nepal</strong> &nbsp;|&nbsp; Civic Issue Reporting Portal &nbsp;|&nbsp; <strong>Started Serving Since 2082 B.S.</strong>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">🏛</div>
+        <div class="nav-title">
+          <span>Janata Report</span>
+          <span>CIVIC ISSUE PORTAL</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="emergency.html">Emergency Contacts</a></li>
+        <li><a href="login.html" class="btn-login-nav active">🔐 Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="login-page-wrap">
+    <div class="login-container">
+
+      <!-- Brand header -->
+      <div class="login-brand">
+        <div class="login-logo">🏛</div>
+        <h1>Janata Report</h1>
+        <p>Civic Issue Reporting Portal · Ghorahi, Dang, Nepal</p>
+        <span class="tagline">"See a Problem. Report It. Fix It."</span>
+      </div>
+
+      <!-- LOGIN CARD (shown when not logged in) -->
+      <div class="login-card" id="loginCard">
+
+        <!-- Tabs -->
+        <div class="login-tabs">
+          <button class="login-tab active" id="citizenTabBtn" onclick="switchTab('citizen')">
+            👤 Citizen Login
+          </button>
+          <button class="login-tab admin-tab" id="adminTabBtn" onclick="switchTab('admin')">
+            🔑 Admin Login
+          </button>
+        </div>
+
+        <!-- Citizen panel -->
+        <div class="login-panel active" id="citizenPanel">
+          <div class="panel-header">
+            <h2>Welcome, Citizen 👋</h2>
+            <p>Log in to submit civic complaints, track your reports, and stay updated on issues in your area.</p>
+          </div>
+
+          <div class="role-chips">
+            <span class="role-chip citizen">✓ Submit complaints</span>
+            <span class="role-chip citizen">✓ Track your reports</span>
+            <span class="role-chip citizen">✓ View report history</span>
+          </div>
+
+          <div class="login-error" id="citizenError">
+            <span>⚠</span> <span id="citizenErrorMsg">Invalid credentials. Please try again.</span>
+          </div>
+
+          <div class="input-group">
+            <label for="citizenPhone">Phone Number</label>
+            <div class="input-wrap">
+              <span class="input-icon">📱</span>
+              <input type="tel" id="citizenPhone" placeholder="e.g. 98XXXXXXXX" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="citizenPass">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="citizenPass" placeholder="Enter your password">
+            </div>
+          </div>
+
+          <div class="demo-hint">
+            <strong>Demo credentials —</strong> Phone: <strong>9800000000</strong> &nbsp;|&nbsp; Password: <strong>citizen123</strong>
+          </div>
+
+          <button class="login-submit citizen-submit" onclick="loginCitizen()">
+            👤 Login as Citizen
+          </button>
+
+          <div class="login-divider">or</div>
+
+          <div style="text-align:center;font-size:13px;color:var(--g600)">
+            New to Janata Report? &nbsp;<a href="#" onclick="registerPrompt()" style="color:var(--blue);font-weight:700">Register here →</a>
+          </div>
+        </div>
+
+        <!-- Admin panel -->
+        <div class="login-panel admin-panel" id="adminPanel">
+          <div class="panel-header">
+            <h2>Admin Access 🔑</h2>
+            <p>Restricted to authorised municipality staff only. Admins can view, manage and resolve all reported civic complaints.</p>
+          </div>
+
+          <div class="role-chips">
+            <span class="role-chip admin">✓ View all reports</span>
+            <span class="role-chip admin">✓ Update status</span>
+            <span class="role-chip admin">✓ Manage complaints</span>
+          </div>
+
+          <div class="login-error" id="adminError">
+            <span>⚠</span> <span id="adminErrorMsg">Invalid admin credentials.</span>
+          </div>
+
+          <div class="input-group">
+            <label for="adminUser">Admin Username</label>
+            <div class="input-wrap">
+              <span class="input-icon">🏛</span>
+              <input type="text" id="adminUser" placeholder="e.g. admin@ghorahi.gov.np" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="adminPass">Admin Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="adminPass" placeholder="Enter admin password">
+            </div>
+          </div>
+
+          <div class="demo-hint" style="background:#fffbeb;border-color:#fde68a">
+            <strong>Demo credentials —</strong> Username: <strong>admin</strong> &nbsp;|&nbsp; Password: <strong>admin123</strong>
+          </div>
+
+          <button class="login-submit admin-submit" onclick="loginAdmin()">
+            🔑 Login as Admin
+          </button>
+        </div>
+
+      </div>
+
+      <!-- CITIZEN DASHBOARD (shown after citizen login) -->
+      <div class="dash-welcome citizen-dash" id="citizenDash">
+        <div class="dash-top">
+          <div>
+            <h2>Welcome back, <span id="citizenName">Citizen</span> 👋</h2>
+            <p>Logged in as Citizen · Ghorahi, Dang, Nepal</p>
+          </div>
+          <button class="logout-btn" onclick="logout()">↩ Logout</button>
+        </div>
+
+        <div class="citizen-actions">
+          <a href="report.html" class="citizen-action-card primary-action">
+            <div class="ca-icon">📝</div>
+            <h4>Submit a Report</h4>
+            <p>File a new civic complaint with your location and photo</p>
+          </a>
+          <a href="dashboard.html" class="citizen-action-card">
+            <div class="ca-icon">📊</div>
+            <h4>View All Reports</h4>
+            <p>Browse the public dashboard to see all submitted issues</p>
+          </a>
+          <a href="emergency.html" class="citizen-action-card">
+            <div class="ca-icon">🚨</div>
+            <h4>Emergency Contacts</h4>
+            <p>Police, fire, ambulance and service helplines</p>
+          </a>
+          <a href="about.html" class="citizen-action-card">
+            <div class="ca-icon">ℹ️</div>
+            <h4>About Janata Report</h4>
+            <p>Learn how the platform works and who we are</p>
+          </a>
+        </div>
+
+        <div class="my-reports-section">
+          <h3>📋 Your Recent Reports</h3>
+          <div id="myReportsList"></div>
+        </div>
+      </div>
+
+      <!-- back to home -->
+      <p class="back-home">
+        ← <a href="index.html">Back to Home</a> &nbsp;·&nbsp; <a href="emergency.html">Emergency Contacts</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ── Demo credentials ──────────────────────────
+    const CITIZEN_CREDS = { phone: '9800000000', password: 'citizen123' };
+    const ADMIN_CREDS   = { username: 'admin',   password: 'admin123'   };
+
+    // ── Tab switching ─────────────────────────────
+    function switchTab(tab) {
+      document.getElementById('citizenPanel').classList.toggle('active', tab === 'citizen');
+      document.getElementById('adminPanel').classList.toggle('active',   tab === 'admin');
+      document.getElementById('citizenTabBtn').classList.toggle('active', tab === 'citizen');
+      document.getElementById('adminTabBtn').classList.toggle('active',   tab === 'admin');
+      document.getElementById('citizenError').classList.remove('show');
+      document.getElementById('adminError').classList.remove('show');
+    }
+
+    // ── Citizen login ─────────────────────────────
+    function loginCitizen() {
+      const phone = document.getElementById('citizenPhone').value.trim();
+      const pass  = document.getElementById('citizenPass').value.trim();
+      const err   = document.getElementById('citizenError');
+      const errMsg = document.getElementById('citizenErrorMsg');
+
+      if (!phone || !pass) {
+        errMsg.textContent = 'Please enter both phone number and password.';
+        err.classList.add('show'); return;
+      }
+      if (phone !== CITIZEN_CREDS.phone || pass !== CITIZEN_CREDS.password) {
+        errMsg.textContent = 'Wrong credentials. Try: 9800000000 / citizen123';
+        err.classList.add('show'); return;
+      }
+
+      err.classList.remove('show');
+      sessionStorage.setItem('jrUser', JSON.stringify({ role: 'citizen', name: 'Ram Bahadur', phone }));
+      showCitizenDash('Ram Bahadur');
+    }
+
+    // ── Admin login ───────────────────────────────
+    function loginAdmin() {
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value.trim();
+      const err  = document.getElementById('adminError');
+      const errMsg = document.getElementById('adminErrorMsg');
+
+      if (!user || !pass) {
+        errMsg.textContent = 'Please enter both username and password.';
+        err.classList.add('show'); return;
+      }
+      if (user !== ADMIN_CREDS.username || pass !== ADMIN_CREDS.password) {
+        errMsg.textContent = 'Wrong credentials. Try: admin / admin123';
+        err.classList.add('show'); return;
+      }
+
+      err.classList.remove('show');
+      sessionStorage.setItem('jrUser', JSON.stringify({ role: 'admin', name: 'Admin' }));
+      window.location.href = 'admin.html';
+    }
+
+    // ── Show citizen dashboard ────────────────────
+    function showCitizenDash(name) {
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('citizenDash').classList.add('active');
+      document.getElementById('citizenName').textContent = name || 'Citizen';
+      renderMyReports();
+    }
+
+    // ── Render citizen's own reports ──────────────
+    function renderMyReports() {
+      const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+      const container = document.getElementById('myReportsList');
+
+      if (reports.length === 0) {
+        container.innerHTML = `
+          <div class="my-reports-empty">
+            <div class="me-icon">📭</div>
+            <p>You haven't submitted any reports yet.<br>
+            <a href="report.html" style="color:var(--blue);font-weight:700">File your first complaint →</a></p>
+          </div>`;
+        return;
+      }
+
+      const recent = reports.slice(0, 5);
+      container.innerHTML = recent.map(r => `
+        <div class="my-report-row">
+          <span class="mr-id">${r.id}</span>
+          <span class="mr-title">${escapeHtml(r.title)}</span>
+          <span class="mr-cat">${categoryIcon(r.category)} ${r.category}</span>
+          <span class="status-badge status-${statusClass(r.status)}" style="flex-shrink:0">${r.status}</span>
+        </div>
+      `).join('') + (reports.length > 5 ? `<p style="font-size:12px;color:var(--g400);text-align:center;margin-top:8px">
+        <a href="dashboard.html" style="color:var(--blue);font-weight:600">View all ${reports.length} reports on the dashboard →</a></p>` : '');
+    }
+
+    // ── Logout ────────────────────────────────────
+    function logout() {
+      sessionStorage.removeItem('jrUser');
+      document.getElementById('loginCard').style.display = 'block';
+      document.getElementById('citizenDash').classList.remove('active');
+      document.getElementById('citizenPhone').value = '';
+      document.getElementById('citizenPass').value  = '';
+    }
+
+    // ── Register prompt ───────────────────────────
+    function registerPrompt() {
+      alert('Registration coming soon!\n\nFor the demo, use these credentials:\nPhone: 9800000000\nPassword: citizen123');
+    }
+
+    // ── Auto-login if session exists ──────────────
+    window.addEventListener('DOMContentLoaded', function () {
+      const session = sessionStorage.getItem('jrUser');
+      if (session) {
+        const user = JSON.parse(session);
+        if (user.role === 'citizen') showCitizenDash(user.name);
+        if (user.role === 'admin')   window.location.href = 'admin.html';
+      }
+    });
+
+    // ── Enter key support ─────────────────────────
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      const citizenActive = document.getElementById('citizenPanel').classList.contains('active');
+      if (citizenActive) loginCitizen(); else loginAdmin();
+    });
+
+    // helpers
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.appendChild(document.createTextNode(str || ''));
+      return d.innerHTML;
+    }
+    function categoryIcon(cat) {
+      return { Electricity:'⚡', Water:'💧', Road:'🛣️', Garbage:'🗑️', Streetlight:'💡', Other:'📋' }[cat] || '📋';
+    }
+    function statusClass(s) {
+      return { 'Pending':'pending', 'In Progress':'progress', 'Resolved':'resolved' }[s] || 'pending';
+    }
+  </script>
+</body>
+</html>
