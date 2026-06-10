@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Contacts – Janata Report</title>
+  <meta name="description" content="Important emergency helpline numbers in Nepal — Police, NEA, Water Supply, Fire Brigade, Ambulance, and Municipality contacts.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛</text></svg>">
+
+  <style>
+    .emg-hero {
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 60%, #b91c1c 100%);
+      color: var(--white);
+      padding: 64px 24px 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .emg-hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      background: rgba(255,255,255,.05);
+      border-radius: 50%;
+    }
+    .emg-hero-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+    .emg-hero .hero-badge {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      color: var(--white);
+    }
+    .emg-hero h1 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; margin-bottom: 12px; }
+    .emg-hero p  { font-size: 15px; color: rgba(255,255,255,.8); line-height: 1.75; max-width: 520px; margin: 0 auto; }
+
+    .emg-warning {
+      background: #fef2f2;
+      border-top: 4px solid var(--red);
+      padding: 16px 24px;
+    }
+    .emg-warning-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #991b1b;
+      font-weight: 500;
+    }
+    .emg-warning span:first-child { font-size: 20px; flex-shrink: 0; }
+
+    .emg-section { padding: 52px 24px 72px; }
+    .emg-inner   { max-width: 1200px; margin: 0 auto; }
+
+    /* big number cards */
+    .emg-primary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .emg-big-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 28px 24px;
+      box-shadow: var(--sh-md);
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .emg-big-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+
+    .emg-big-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 5px;
+    }
+    .emg-big-card.police    { border-color: #bfdbfe; }
+    .emg-big-card.police::before    { background: #3b82f6; }
+    .emg-big-card.fire      { border-color: #fecdd3; }
+    .emg-big-card.fire::before      { background: var(--red); }
+    .emg-big-card.ambulance { border-color: #ddd6fe; }
+    .emg-big-card.ambulance::before { background: var(--purple); }
+
+    .emg-big-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .emg-big-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      font-size: 28px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .police .emg-big-icon    { background: #dbeafe; }
+    .fire .emg-big-icon      { background: #fee2e2; }
+    .ambulance .emg-big-icon { background: #ede9fe; }
+
+    .emg-big-meta h3  { font-size: 17px; font-weight: 700; color: var(--g800); margin-bottom: 3px; }
+    .emg-big-meta span { font-size: 12px; color: var(--g400); }
+
+    .emg-big-number {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--blue);
+      letter-spacing: 2px;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .police .emg-big-number    { color: #2563eb; }
+    .fire .emg-big-number      { color: var(--red); }
+    .ambulance .emg-big-number { color: var(--purple); }
+
+    .emg-big-desc { font-size: 13px; color: var(--g600); line-height: 1.65; margin-bottom: 16px; }
+
+    .call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      width: fit-content;
+      transition: opacity .2s, transform .15s;
+    }
+    .call-btn:hover { opacity: .88; transform: translateY(-1px); }
+    .police .call-btn    { background: #dbeafe; color: #1d4ed8; }
+    .fire .call-btn      { background: #fee2e2; color: #b91c1c; }
+    .ambulance .call-btn { background: #ede9fe; color: #6d28d9; }
+
+    /* Secondary cards */
+    .emg-sub-heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--g800);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .emg-secondary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+    .emg-card-sm {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 22px 20px;
+      border: 2px solid var(--g200);
+      box-shadow: var(--sh-sm);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .emg-card-sm:hover { transform: translateY(-2px); box-shadow: var(--sh-md); }
+    .emg-card-sm.nea      { border-color: #fde68a; background: #fefce8; }
+    .emg-card-sm.water    { border-color: #a7f3d0; background: #ecfdf5; }
+    .emg-card-sm.muni     { border-color: #bae6fd; background: #f0f9ff; }
+    .emg-card-sm.disaster { border-color: #fca5a5; background: #fff1f2; }
+
+    .emg-sm-icon {
+      width: 50px; height: 50px;
+      border-radius: 12px;
+      font-size: 24px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nea .emg-sm-icon      { background: #fef9c3; }
+    .water .emg-sm-icon    { background: #d1fae5; }
+    .muni .emg-sm-icon     { background: #e0f2fe; }
+    .disaster .emg-sm-icon { background: #fee2e2; }
+
+    .emg-sm-info h4       { font-size: 15px; font-weight: 700; color: var(--g800); margin-bottom: 3px; }
+    .emg-sm-number        { font-size: 22px; font-weight: 800; color: var(--blue); letter-spacing: 1px; display: block; margin-bottom: 2px; }
+    .emg-sm-info small    { font-size: 12px; color: var(--g600); }
+
+    /* Tips box */
+    .emg-tips {
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      border-radius: var(--r-lg);
+      padding: 28px 30px;
+      margin-bottom: 40px;
+    }
+    .emg-tips h3 { font-size: 17px; font-weight: 700; color: #92400e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .emg-tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .emg-tips-grid li {
+      font-size: 13px;
+      color: #78350f;
+      padding: 6px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.55;
+    }
+    .emg-tips-grid li::before { content: '⚠'; flex-shrink: 0; margin-top: 1px; }
+
+    /* Non-emergency note */
+    .non-emg-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--r-lg);
+      padding: 26px 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .non-emg-box .neb-icon { font-size: 36px; flex-shrink: 0; }
+    .non-emg-box h4 { font-size: 16px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+    .non-emg-box p  { font-size: 14px; color: var(--g600); line-height: 1.7; margin-bottom: 12px; }
+
+    @media (max-width: 640px) {
+      .emg-tips-grid { grid-template-columns: 1fr; }
+      .emg-big-number { font-size: 38px; }
+      .non-emg-box { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body data-page="emergency">
+
+  <div class="gov-banner">
+    🇳🇵 &nbsp;<strong>Government of Nepal</strong> &nbsp;|&nbsp; Civic Issue Reporting Portal &nbsp;|&nbsp; <strong>Started Serving Since 2082 B.S.</strong>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">🏛</div>
+        <div class="nav-title">
+          <span>Janata Report</span>
+          <span>CIVIC ISSUE PORTAL</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="emergency.html" class="active">Emergency Contacts</a></li>
+        <li><a href="login.html" class="btn-login-nav">🔐 Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="emg-hero">
+    <div class="emg-hero-inner">
+      <div class="hero-badge">🚨 Emergency Helplines</div>
+      <h1>Important Contact Numbers</h1>
+      <p>Keep these numbers handy. For life-threatening emergencies, call immediately — do not wait to file an online report.</p>
+    </div>
+  </section>
+
+  <!-- Warning strip -->
+  <div class="emg-warning">
+    <div class="emg-warning-inner">
+      <span>🚨</span>
+      <span>If you or someone around you is in immediate danger — call emergency services right now. These numbers are available <strong>24 hours a day, 7 days a week.</strong></span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <section class="emg-section">
+    <div class="emg-inner">
+
+      <!-- Primary three -->
+      <h2 class="emg-sub-heading">🔴 Life Emergency Numbers</h2>
+      <div class="emg-primary-grid">
+
+        <div class="emg-big-card police">
+          <div class="emg-big-top">
+            <div class="emg-big-icon">👮</div>
+            <div class="emg-big-meta">
+              <h3>Nepal Police</h3>
+              <span>Crime, accident, public safety</span>
+            </div>
+          </div>
+          <div class="emg-big-number">100</div>
+          <p class="emg-big-desc">Call for crimes in progress, road accidents, public disturbances, missing persons, or any situation where you need immediate law enforcement presence.</p>
+          <a href="tel:100" class="call-btn">📞 Call 100</a>
+        </div>
+
+        <div class="emg-big-card fire">
+          <div class="emg-big-top">
+            <div class="emg-big-icon">🚒</div>
+            <div class="emg-big-meta">
+              <h3>Fire Brigade</h3>
+              <span>Fire, rescue, hazardous situations</span>
+            </div>
+          </div>
+          <div class="emg-big-number">101</div>
+          <p class="emg-big-desc">Call immediately for any fire — home, vehicle, forest, or industrial. Also covers structural collapses, gas leaks, and rescue operations.</p>
+          <a href="tel:101" class="call-btn">📞 Call 101</a>
+        </div>
+
+        <div class="emg-big-card ambulance">
+          <div class="emg-big-top">
+            <div class="emg-big-icon">🚑</div>
+            <div class="emg-big-meta">
+              <h3>Ambulance Service</h3>
+              <span>Medical emergencies, injuries</span>
+            </div>
+          </div>
+          <div class="emg-big-number">102</div>
+          <p class="emg-big-desc">For medical emergencies requiring urgent transport — severe injuries, heart attacks, strokes, difficult childbirth, or any life-threatening condition.</p>
+          <a href="tel:102" class="call-btn">📞 Call 102</a>
+        </div>
+
+      </div>
+
+      <!-- Secondary service contacts -->
+      <h2 class="emg-sub-heading">🔧 Public Service Helplines</h2>
+      <div class="emg-secondary-grid">
+
+        <div class="emg-card-sm nea">
+          <div class="emg-sm-icon">⚡</div>
+          <div class="emg-sm-info">
+            <h4>NEA Helpline</h4>
+            <span class="emg-sm-number">1150</span>
+            <small>Nepal Electricity Authority — power outages, transformer faults, billing disputes</small>
+          </div>
+        </div>
+
+        <div class="emg-card-sm water">
+          <div class="emg-sm-icon">💧</div>
+          <div class="emg-sm-info">
+            <h4>Water Supply</h4>
+            <span class="emg-sm-number">1177</span>
+            <small>Municipality water board — pipeline leaks, supply disruptions, contamination</small>
+          </div>
+        </div>
+
+        <div class="emg-card-sm muni">
+          <div class="emg-sm-icon">🏛</div>
+          <div class="emg-sm-info">
+            <h4>Municipality Office</h4>
+            <span class="emg-sm-number">1800-MUNI</span>
+            <small>Ghorahi Sub-Metropolitan City — road, garbage, ward office queries</small>
+          </div>
+        </div>
+
+        <div class="emg-card-sm disaster">
+          <div class="emg-sm-icon">🌊</div>
+          <div class="emg-sm-info">
+            <h4>Disaster Management</h4>
+            <span class="emg-sm-number">1149</span>
+            <small>NDRRMA — floods, landslides, earthquakes, natural disaster response</small>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Safety tips -->
+      <div class="emg-tips">
+        <h3>⚠ Before You Call — Quick Tips</h3>
+        <ul class="emg-tips-grid">
+          <li>Stay calm and speak clearly when connected to an operator</li>
+          <li>State your exact location first — street name, ward number, landmark</li>
+          <li>Describe what is happening in a few short sentences</li>
+          <li>Do not hang up until the operator tells you it is okay to do so</li>
+          <li>If calling about someone else, stay with them if it is safe</li>
+          <li>For electricity faults, do not touch wires — call NEA immediately</li>
+          <li>For fire, leave the building first, then call 101 from outside</li>
+          <li>Keep these numbers saved on your phone right now, not just this page</li>
+        </ul>
+      </div>
+
+      <!-- Non-emergency note -->
+      <div class="non-emg-box">
+        <div class="neb-icon">📋</div>
+        <div>
+          <h4>Not an Emergency? File a Report Instead.</h4>
+          <p>
+            These helplines are for urgent situations. For ongoing civic problems — a pothole that has been there for a month, a streetlight that has been dead for weeks, a garbage bin that never gets collected — please use Janata Report. That way the complaint gets logged, tracked, and followed up properly.
+          </p>
+          <a href="login.html" class="btn btn-blue btn-sm">🔐 Login to File a Report</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-brand" style="margin-bottom:12px">
+            <div class="nav-logo">🏛</div>
+            <div class="nav-title">
+              <span>Janata Report</span>
+              <span>CIVIC ISSUE PORTAL</span>
+            </div>
+          </a>
+          <p>"See a Problem. Report It. Fix It." — A civic platform connecting citizens with local authorities across Nepal.</p>
+          <p class="footer-misfits">🤝 Made by Misfits</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigate</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="emergency.html">Emergency Contacts</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Quick Dial</h5>
+          <ul>
+            <li><a href="tel:100">👮 Police: 100</a></li>
+            <li><a href="tel:101">🚒 Fire: 101</a></li>
+            <li><a href="tel:102">🚑 Ambulance: 102</a></li>
+            <li><a href="tel:1150">⚡ NEA: 1150</a></li>
+            <li><a href="tel:1149">🌊 Disaster: 1149</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <span>Janata Report</span>
+          <span class="footer-dot">·</span>
+          <span>Made by Misfits</span>
+          <span class="footer-dot">·</span>
+          <span>Started Serving Since 2082 B.S.</span>
+          <span class="footer-dot">·</span>
+          <span>Ghorahi, Dang, Nepal</span>
+        </div>
+        <span class="footer-copy">© 2082 B.S. All Rights Reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
