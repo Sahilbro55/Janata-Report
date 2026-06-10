@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit a Report – Janata Report</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛</text></svg>">
+</head>
+<body data-page="report">
+
+  <!-- Government Banner -->
+  <div class="gov-banner">
+    🇳🇵 &nbsp;<strong>Government of Nepal</strong> &nbsp;|&nbsp; Civic Issue Reporting Portal &nbsp;|&nbsp; <strong>Serving Citizens Since 2080 B.S.</strong>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">🏛</div>
+        <div class="nav-title">
+          <span>Janata Report</span>
+          <span>CIVIC ISSUE PORTAL</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="report.html" class="active">Report Issue</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="admin.html">Admin</a></li>
+        <li><a href="report.html" class="btn-report-nav">+ File a Report</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="index.html">🏠 Home</a>
+        <span>›</span>
+        <span>Submit Report</span>
+      </div>
+      <h1>📝 Submit a Civic Report</h1>
+      <p>Describe the issue in your area. Your report will be forwarded to the concerned municipality department.</p>
+    </div>
+  </div>
+
+  <!-- Report Form -->
+  <section class="report-section">
+    <div class="report-layout">
+
+      <!-- Main Form -->
+      <div class="form-card">
+        <h2>Issue Report Form</h2>
+        <p class="form-subtitle">Fields marked with <span style="color:var(--red)">*</span> are required. All reports are reviewed by municipality officials.</p>
+
+        <div class="form-notice">
+          <span>ℹ️</span>
+          <span>Your report will be saved locally and assigned a unique Report ID. Use the <a href="dashboard.html" style="color:var(--blue);font-weight:600;text-decoration:underline">dashboard</a> to track its status.</span>
+        </div>
+
+        <form id="reportForm" novalidate>
+
+          <!-- Name & Phone -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="repName">Full Name <span class="required">*</span></label>
+              <input type="text" id="repName" placeholder="e.g. Ram Bahadur Thapa" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="repPhone">Phone Number</label>
+              <input type="tel" id="repPhone" placeholder="e.g. 98XXXXXXXX" autocomplete="tel">
+            </div>
+          </div>
+
+          <!-- Category & Ward -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="repCategory">Issue Category <span class="required">*</span></label>
+              <select id="repCategory" required>
+                <option value="" disabled selected>Select issue type…</option>
+                <option value="Electricity">⚡ Electricity Problem</option>
+                <option value="Water">💧 Water Supply Issue</option>
+                <option value="Road">🛣️ Road Damage</option>
+                <option value="Garbage">🗑️ Garbage / Sanitation</option>
+                <option value="Streetlight">💡 Streetlight Failure</option>
+                <option value="Other">📋 Other Issue</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="repWard">Ward / Location</label>
+              <input type="text" id="repWard" placeholder="e.g. Ward No. 14, Kathmandu">
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div class="form-group">
+            <label for="repTitle">Issue Title <span class="required">*</span></label>
+            <input type="text" id="repTitle" placeholder="Short summary of the problem, e.g. 'No power since 3 days in Balaju'" required maxlength="100">
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="repDesc">Detailed Description <span class="required">*</span></label>
+            <textarea id="repDesc" rows="5" placeholder="Describe the issue clearly — when did it start, how severe is it, who is affected, any prior complaints filed? The more detail you provide, the faster it can be resolved." required></textarea>
+          </div>
+
+          <!-- Photo Upload -->
+          <div class="form-group">
+            <label>Attach Photo <span style="color:var(--gray-400);font-weight:400">(optional)</span></label>
+            <div class="upload-area" id="uploadArea">
+              <input type="file" id="photoInput" accept="image/*" aria-label="Upload photo">
+              <div class="upload-icon">📷</div>
+              <p id="fileLabel">Click to browse or drag &amp; drop</p>
+              <small>Supports JPG, PNG, WEBP — max 5 MB</small>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label>GPS Location <span style="color:var(--gray-400);font-weight:400">(recommended)</span></label>
+            <div class="location-group">
+              <div class="location-display">
+                <div class="location-value" id="locationDisplay">Location not captured yet — click the button to share your GPS</div>
+              </div>
+              <button type="button" class="btn btn-location" id="getLocationBtn">📍 Get My Location</button>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="submit-row">
+            <button type="submit" class="btn btn-blue" style="padding:13px 32px;font-size:15px">
+              🚀 Submit Report
+            </button>
+            <button type="reset" class="btn" style="background:var(--gray-200);color:var(--gray-600)">
+              🔄 Clear Form
+            </button>
+          </div>
+
+          <!-- Success -->
+          <div class="success-msg" id="successMsg">
+            <span style="font-size:22px">✅</span>
+            <div>
+              <strong>Report submitted successfully!</strong><br>
+              <span style="font-weight:400;font-size:13px">Your complaint has been logged. Track its progress on the <a href="dashboard.html" style="color:var(--green);text-decoration:underline">dashboard</a>.</span>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar-tips">
+
+        <div class="tip-card">
+          <h4>📋 Reporting Tips</h4>
+          <ul>
+            <li>Be specific about the location</li>
+            <li>Include when the issue started</li>
+            <li>Mention how many people are affected</li>
+            <li>Attach a photo if possible</li>
+            <li>Share your GPS for faster dispatch</li>
+          </ul>
+        </div>
+
+        <div class="tip-card">
+          <h4>📞 Emergency Contacts</h4>
+          <ul>
+            <li>👮 Police: <strong>100</strong></li>
+            <li>⚡ NEA Helpline: <strong>1150</strong></li>
+            <li>💧 Water Supply: <strong>4271705</strong></li>
+            <li>🚒 Fire Brigade: <strong>101</strong></li>
+            <li>🚑 Ambulance: <strong>102</strong></li>
+          </ul>
+        </div>
+
+        <div class="tip-card" style="background:#fffbeb;border:1px solid #fde68a">
+          <h4 style="color:#92400e">⚠ Important Note</h4>
+          <p style="font-size:13px;color:#78350f;line-height:1.65">
+            This portal is for <strong>non-emergency civic issues</strong>. If you are in immediate danger or witness a crime or accident, please call emergency services directly.
+          </p>
+        </div>
+
+        <div class="tip-card" style="background:#f0fdf4;border:1px solid #bbf7d0">
+          <h4 style="color:#166534">📊 Track Your Report</h4>
+          <p style="font-size:13px;color:#166534;line-height:1.65;margin-bottom:12px">
+            After submitting, your report gets a unique ID. Visit the dashboard to track its resolution status.
+          </p>
+          <a href="dashboard.html" class="btn btn-green btn-sm btn-full">View Dashboard →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px">
+            <div class="nav-logo">🏛</div>
+            <div class="nav-title">
+              <span>Janata Report</span>
+              <span>CIVIC ISSUE PORTAL</span>
+            </div>
+          </div>
+          <p>A digital civic engagement platform connecting Nepali citizens with their local municipality.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="report.html">Report an Issue</a></li>
+            <li><a href="dashboard.html">View Dashboard</a></li>
+            <li><a href="admin.html">Admin Panel</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Emergency</h5>
+          <ul>
+            <li><a href="tel:100">Police: 100</a></li>
+            <li><a href="tel:1150">NEA: 1150</a></li>
+            <li><a href="tel:101">Fire: 101</a></li>
+            <li><a href="tel:102">Ambulance: 102</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2081 B.S. Janata Report. Built for civic empowerment.</span>
+        <span class="footer-flag">🇳🇵 Made with pride for Nepal</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

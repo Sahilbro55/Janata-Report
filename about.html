@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us – Janata Report</title>
+  <meta name="description" content="Learn about Janata Report — Nepal's civic issue reporting platform built by Misfits, based in Ghorahi, Dang. Our mission is to make public service more transparent and responsive.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛</text></svg>">
+
+  <style>
+    /* ── About-page-only extras ── */
+
+    .about-hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 65%, var(--blue-light) 100%);
+      padding: 72px 24px 80px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 380px; height: 380px;
+      background: rgba(250,204,21,.06);
+      border-radius: 50%;
+    }
+    .about-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -40px;
+      width: 260px; height: 260px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+    }
+    .about-hero-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .about-hero .hero-badge {
+      margin-bottom: 22px;
+    }
+    .about-hero h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -.4px;
+    }
+    .about-hero .tagline-banner {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--blue-dark);
+      font-size: 16px;
+      font-weight: 800;
+      padding: 10px 24px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      letter-spacing: .2px;
+    }
+    .about-hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,.8);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── Quick-info strip ── */
+    .info-strip {
+      background: var(--white);
+      border-bottom: 1px solid var(--g200);
+    }
+    .info-strip-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .info-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      font-size: 13px;
+      color: var(--g600);
+      border-right: 1px solid var(--g200);
+    }
+    .info-pill:last-child { border-right: none; }
+    .info-pill .pill-icon { font-size: 20px; }
+    .info-pill strong { color: var(--g800); font-weight: 700; display: block; font-size: 14px; }
+
+    /* ── About body ── */
+    .about-body {
+      padding: 56px 24px 72px;
+      background: var(--bg);
+    }
+    .about-body-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* intro paragraph */
+    .about-intro {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 36px 40px;
+      border: 1px solid var(--g200);
+      box-shadow: var(--sh-sm);
+      margin-bottom: 32px;
+    }
+    .about-intro h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--g800);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .about-intro p {
+      font-size: 15px;
+      color: var(--g600);
+      line-height: 1.85;
+      margin-bottom: 14px;
+    }
+    .about-intro p:last-child { margin-bottom: 0; }
+    .about-intro p strong { color: var(--blue); }
+
+    /* mission / vision cards */
+    .mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 32px;
+    }
+    .mv-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 30px 26px;
+      border: 1px solid var(--g200);
+      box-shadow: var(--sh-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    .mv-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 5px; height: 100%;
+    }
+    .mv-card.mission::before { background: var(--blue); }
+    .mv-card.vision::before  { background: var(--yellow); }
+
+    .mv-card .mv-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .mv-card.mission .mv-label { background: #dbeafe; color: var(--blue); }
+    .mv-card.vision  .mv-label { background: #fef9c3; color: #854d0e; }
+
+    .mv-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--g800);
+      margin-bottom: 10px;
+    }
+    .mv-card p {
+      font-size: 15px;
+      color: var(--g600);
+      line-height: 1.8;
+    }
+
+    /* Benefits grid */
+    .benefits-section {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 32px 36px;
+      border: 1px solid var(--g200);
+      box-shadow: var(--sh-sm);
+      margin-bottom: 32px;
+    }
+    .benefits-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .benefit-group h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--g800);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--g200);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .benefit-group ul li {
+      font-size: 13px;
+      color: var(--g600);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--g100);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.55;
+    }
+    .benefit-group ul li:last-child { border-bottom: none; }
+    .benefit-group ul li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Team card */
+    .team-card {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+      border-radius: var(--r-lg);
+      padding: 40px 36px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(250,204,21,.07);
+      border-radius: 50%;
+    }
+    .team-card-inner { position: relative; z-index: 1; }
+    .team-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .team-card .sub {
+      font-size: 14px;
+      color: rgba(255,255,255,.68);
+      margin-bottom: 24px;
+    }
+    .team-name-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--yellow);
+      color: var(--blue-dark);
+      font-size: 22px;
+      font-weight: 800;
+      padding: 12px 28px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      letter-spacing: .3px;
+    }
+    .team-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .team-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,.7);
+    }
+    .team-card .tagline-quote {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--yellow);
+      font-weight: 600;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+
+    @media (max-width: 700px) {
+      .mv-grid        { grid-template-columns: 1fr; }
+      .benefits-grid  { grid-template-columns: 1fr; }
+      .about-intro    { padding: 24px 20px; }
+      .benefits-section { padding: 24px 20px; }
+      .team-card      { padding: 28px 20px; }
+      .info-pill      { border-right: none; border-bottom: 1px solid var(--g200); width: 100%; }
+      .info-pill:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body data-page="about">
+
+  <div class="gov-banner">
+    🇳🇵 &nbsp;<strong>Government of Nepal</strong> &nbsp;|&nbsp; Civic Issue Reporting Portal &nbsp;|&nbsp; <strong>Started Serving Since 2082 B.S.</strong>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">🏛</div>
+        <div class="nav-title">
+          <span>Janata Report</span>
+          <span>CIVIC ISSUE PORTAL</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About Us</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="emergency.html">Emergency Contacts</a></li>
+        <li><a href="login.html" class="btn-login-nav">🔐 Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- About Hero -->
+  <section class="about-hero">
+    <div class="about-hero-inner">
+      <div class="hero-badge">🏛 About Janata Report</div>
+      <h1>Built for Citizens.<br>Powered by Participation.</h1>
+      <div class="tagline-banner">"See a Problem. Report It. Fix It."</div>
+      <p>We believe a better Nepal starts with citizens who speak up — and a system that actually listens.</p>
+    </div>
+  </section>
+
+  <!-- Quick info strip -->
+  <div class="info-strip">
+    <div class="info-strip-inner">
+      <div class="info-pill">
+        <span class="pill-icon">📍</span>
+        <div>
+          <strong>Ghorahi, Dang, Nepal</strong>
+          Based and operated from Dang Province
+        </div>
+      </div>
+      <div class="info-pill">
+        <span class="pill-icon">📅</span>
+        <div>
+          <strong>Started 2082 B.S.</strong>
+          Serving communities since day one
+        </div>
+      </div>
+      <div class="info-pill">
+        <span class="pill-icon">🤝</span>
+        <div>
+          <strong>Made by Misfits</strong>
+          A team passionate about civic tech
+        </div>
+      </div>
+      <div class="info-pill">
+        <span class="pill-icon">🇳🇵</span>
+        <div>
+          <strong>Nepal-wide</strong>
+          Open to citizens across all provinces
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main body -->
+  <div class="about-body">
+    <div class="about-body-inner">
+
+      <!-- What is Janata Report -->
+      <div class="about-intro">
+        <h2>🏛 What is Janata Report?</h2>
+        <p>
+          <strong>Janata Report</strong> is a civic issue reporting platform designed to connect citizens with local authorities in a simple and efficient way. It gives every Nepali the ability to report problems — electricity failures, road damage, water issues, garbage pileups, broken streetlights — directly to the people responsible for fixing them.
+        </p>
+        <p>
+          For too long, civic complaints have been stuck in long queues at ward offices, lost in phone calls, or simply ignored because there was no organised way to track them. Janata Report changes that. Every complaint gets a unique ID, a public status, and a place on the dashboard that anyone can check.
+        </p>
+        <p>
+          This platform was created to improve communication between <strong>citizens and service providers</strong>, ensuring faster response times and greater transparency in how public services are managed and delivered.
+        </p>
+        <p>
+          Janata Report is developed by <strong>Misfits</strong> and is based in <strong>Ghorahi, Dang, Nepal</strong>. We started serving communities in <strong>2082 B.S.</strong> with a simple belief — a reported problem is already halfway to being solved.
+        </p>
+      </div>
+
+      <!-- Mission & Vision -->
+      <div class="mv-grid">
+        <div class="mv-card mission">
+          <span class="mv-label">🎯 Our Mission</span>
+          <h3>Make Civic Reporting Accessible</h3>
+          <p>
+            To make civic issue reporting simple, fast, and accessible for everyone — whether you are in a city ward or a remote municipality. No complicated paperwork. No running between offices. Just a form, a submit button, and a system that tracks what happens next.
+          </p>
+        </div>
+        <div class="mv-card vision">
+          <span class="mv-label">🔭 Our Vision</span>
+          <h3>A More Responsive Public Service</h3>
+          <p>
+            A Nepal where public services are transparent, responsive, and accountable — powered by citizen participation. We envision every ward office equipped with the tools and the data to act quickly, and every citizen empowered enough to demand it.
+          </p>
+        </div>
+      </div>
+
+      <!-- Benefits -->
+      <div class="benefits-section">
+        <h2>🌟 Who Benefits and How</h2>
+        <div class="benefits-grid">
+          <div class="benefit-group">
+            <h4>👤 For Citizens</h4>
+            <ul>
+              <li>Report issues from anywhere, any time — no office visit needed</li>
+              <li>Get a unique Report ID to track your complaint's progress</li>
+              <li>See all reported issues in your area on the public dashboard</li>
+              <li>Share your GPS location for faster on-site response</li>
+              <li>Upload a photo to give authorities a clear picture of the problem</li>
+              <li>Know when your issue moves from Pending to Resolved</li>
+            </ul>
+          </div>
+          <div class="benefit-group">
+            <h4>🏛 For Authorities</h4>
+            <ul>
+              <li>Receive organised, categorised complaints in one place</li>
+              <li>GPS coordinates help teams locate issues without confusion</li>
+              <li>Update status in real time — citizens see changes immediately</li>
+              <li>Filter reports by category, ward, or urgency for better planning</li>
+              <li>Build trust by showing citizens that reports are being acted on</li>
+              <li>Reduce time wasted on phone calls and walk-in complaints</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team -->
+      <div class="team-card">
+        <div class="team-card-inner">
+          <h3>Meet the Team Behind It</h3>
+          <p class="sub">A small group of students who decided to do something about it.</p>
+          <div class="team-name-badge">🤝 Misfits</div>
+          <div class="team-meta">
+            <div class="team-meta-item">📍 Ghorahi, Dang, Nepal</div>
+            <div class="team-meta-item">📅 Est. 2082 B.S.</div>
+            <div class="team-meta-item">🎓 College Project</div>
+          </div>
+          <p style="font-size:14px;color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 20px;line-height:1.8">
+            We are Misfits — a team that came together with one shared frustration: good ideas stuck inside classrooms while real problems stayed unsolved outside them. Janata Report is our answer to that. It is not just a project for a competition. It is a tool we genuinely want to see used.
+          </p>
+          <p class="tagline-quote">"See a Problem. Report It. Fix It."</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="cta-tag">Join the movement</div>
+      <h2>Ready to Report Your First Issue?</h2>
+      <p>Log in as a citizen and file your first complaint in under two minutes. Your ward is waiting.</p>
+      <div class="cta-buttons">
+        <a href="login.html" class="btn btn-primary" style="font-size:15px;padding:13px 30px">🔐 Login to Get Started</a>
+        <a href="dashboard.html" class="btn btn-outline" style="font-size:15px;padding:13px 30px">📊 View Dashboard</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-brand" style="margin-bottom:12px">
+            <div class="nav-logo">🏛</div>
+            <div class="nav-title">
+              <span>Janata Report</span>
+              <span>CIVIC ISSUE PORTAL</span>
+            </div>
+          </a>
+          <p>"See a Problem. Report It. Fix It." — A civic platform connecting citizens with local authorities across Nepal.</p>
+          <p class="footer-misfits">🤝 Made by Misfits</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigate</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="emergency.html">Emergency Contacts</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Report Types</h5>
+          <ul>
+            <li><a href="login.html">⚡ Electricity</a></li>
+            <li><a href="login.html">💧 Water Supply</a></li>
+            <li><a href="login.html">🛣️ Road Damage</a></li>
+            <li><a href="login.html">🗑️ Garbage</a></li>
+            <li><a href="login.html">💡 Streetlights</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <span>Janata Report</span>
+          <span class="footer-dot">·</span>
+          <span>Made by Misfits</span>
+          <span class="footer-dot">·</span>
+          <span>Started Serving Since 2082 B.S.</span>
+          <span class="footer-dot">·</span>
+          <span>Ghorahi, Dang, Nepal</span>
+        </div>
+        <span class="footer-copy">© 2082 B.S. All Rights Reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

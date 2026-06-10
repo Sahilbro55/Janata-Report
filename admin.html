@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel – Janata Report</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛</text></svg>">
+</head>
+<body data-page="admin">
+
+  <!-- Government Banner -->
+  <div class="gov-banner">
+    🇳🇵 &nbsp;<strong>Government of Nepal</strong> &nbsp;|&nbsp; Civic Issue Reporting Portal &nbsp;|&nbsp; <strong>Serving Citizens Since 2080 B.S.</strong>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">🏛</div>
+        <div class="nav-title">
+          <span>Janata Report</span>
+          <span>CIVIC ISSUE PORTAL</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="report.html">Report Issue</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+        <li><a href="report.html" class="btn-report-nav">+ File a Report</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="index.html">🏠 Home</a>
+        <span>›</span>
+        <span>Admin Panel</span>
+      </div>
+      <h1>
+        🔧 Admin Panel
+        <span class="admin-badge">🔑 Municipality Staff Only</span>
+      </h1>
+      <p>Manage civic reports, update statuses, and track resolution progress across all wards.</p>
+    </div>
+  </div>
+
+  <!-- Admin Content -->
+  <section class="dashboard-section">
+    <div class="dashboard-inner">
+
+      <!-- Admin Notice -->
+      <div class="alert alert-warn">
+        <span>⚠️</span>
+        <span><strong>Restricted Access:</strong> This panel is intended for authorised municipality staff only. Actions taken here are reflected in real-time on the public dashboard.</span>
+      </div>
+
+      <!-- Stats Strip -->
+      <div class="stats-strip">
+        <div class="mini-stat ms-total">
+          <div class="ms-num" id="statTotal">0</div>
+          <div class="ms-label">Total Reports</div>
+        </div>
+        <div class="mini-stat ms-pending">
+          <div class="ms-num" id="statPending">0</div>
+          <div class="ms-label">Pending</div>
+        </div>
+        <div class="mini-stat ms-progress">
+          <div class="ms-num" id="statProgress">0</div>
+          <div class="ms-label">In Progress</div>
+        </div>
+        <div class="mini-stat ms-resolved">
+          <div class="ms-num" id="statResolved">0</div>
+          <div class="ms-label">Resolved</div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <label for="filterCat">Category:</label>
+        <select id="filterCat">
+          <option value="">All Categories</option>
+          <option value="Electricity">⚡ Electricity</option>
+          <option value="Water">💧 Water</option>
+          <option value="Road">🛣️ Road</option>
+          <option value="Garbage">🗑️ Garbage</option>
+          <option value="Streetlight">💡 Streetlight</option>
+          <option value="Other">📋 Other</option>
+        </select>
+
+        <label for="filterStatus">Status:</label>
+        <select id="filterStatus">
+          <option value="">All Statuses</option>
+          <option value="Pending">⏳ Pending</option>
+          <option value="In Progress">🔧 In Progress</option>
+          <option value="Resolved">✅ Resolved</option>
+        </select>
+
+        <label for="searchInput">Search:</label>
+        <input type="text" id="searchInput" placeholder="Search by title, name, or ID…" style="min-width:180px">
+
+        <div class="filter-spacer"></div>
+
+        <button class="btn btn-blue btn-sm" id="refreshBtn">🔄 Refresh</button>
+        <button class="btn btn-sm" id="clearAllBtn" style="background:#fee2e2;color:#991b1b">🗑 Clear All</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrapper">
+        <div class="table-header">
+          <h3>📋 All Reports — Admin View</h3>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <span style="font-size:12px;background:#dcfce7;color:#166534;padding:4px 10px;border-radius:6px;font-weight:600">✅ Resolved: marks as done</span>
+            <span style="font-size:12px;background:#ffedd5;color:#9a3412;padding:4px 10px;border-radius:6px;font-weight:600">🔧 In Progress: work started</span>
+            <span style="font-size:12px;background:#fee2e2;color:#991b1b;padding:4px 10px;border-radius:6px;font-weight:600">⏳ Pending: not yet started</span>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Report ID</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Reporter</th>
+                <th>Status</th>
+                <th>Update Status</th>
+                <th>Del</th>
+              </tr>
+            </thead>
+            <tbody id="reportsBody">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Note -->
+      <div class="alert alert-info" style="margin-top:20px">
+        <span>ℹ️</span>
+        <span>All status changes are saved instantly to localStorage and visible on the public <a href="dashboard.html" style="color:var(--blue);font-weight:600;text-decoration:underline">dashboard</a>. No server or internet connection required.</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px">
+            <div class="nav-logo">🏛</div>
+            <div class="nav-title">
+              <span>Janata Report</span>
+              <span>CIVIC ISSUE PORTAL</span>
+            </div>
+          </div>
+          <p>A digital civic engagement platform connecting Nepali citizens with their local municipality.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="report.html">Report an Issue</a></li>
+            <li><a href="dashboard.html">View Dashboard</a></li>
+            <li><a href="admin.html">Admin Panel</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Emergency</h5>
+          <ul>
+            <li><a href="tel:100">Police: 100</a></li>
+            <li><a href="tel:1150">NEA: 1150</a></li>
+            <li><a href="tel:101">Fire: 101</a></li>
+            <li><a href="tel:102">Ambulance: 102</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2081 B.S. Janata Report. Built for civic empowerment.</span>
+        <span class="footer-flag">🇳🇵 Made with pride for Nepal</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
